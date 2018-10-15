@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+behave = "*"
+nose = "*"
+coverage = "*"
+flake8 = "*"
+v = {version = "*", editable = true}
+
+[packages]
+paho-mqtt = "*"
+gpiozero = "*"
+pyyaml = "*"
+
+[requires]
+python_version = "3.6"
