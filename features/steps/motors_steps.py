@@ -1,4 +1,5 @@
 from behave import given, when, then
+from nose.tools import assert_equal
 
 from robot.motors import *
 
@@ -25,40 +26,40 @@ class MockedRobot(object):
         self.attributes = dict(kwargs)
 
     def stop(self):
-        self.directions = STOP
+        self.direction = STOP
 
 
-@given(u'vx equal "{value}"')
+@given(u'vx equal {value}')
 def step_impl(context, value):
     context.vx = float(value)
 
 
-@given(u'vy equal "{value}"')
+@given(u'vy equal {value}')
 def step_impl(context, value):
     context.vy = float(value)
 
 
 @when(u'do robot movement')
 def step_impl(context):
-    context.robot = MockedRobot
-    context.controller = DifferentialMotorController(robot=context.robot)
+    context.robot = MockedRobot()
+    context.controller = DifferentialMotorAdapter(robot=context.robot)
     context.controller.move(vx=context.vx, vy=context.vy)
 
 
 @then(u'robot is stopped')
 def step_impl(context):
-    assert context.robot.direction == STOP
+    assert_equal(STOP, context.robot.direction)
 
 
-@then(u'robot moves "{direction}" with speed "{speed}" and curve left "{curve_left}" and curve right "{curve_right}"')
+@then(u'robot moves {direction} with speed {speed} and curve left {curve_left} and curve right {curve_right}')
 def step_impl(context, direction, speed, curve_left, curve_right):
-    assert context.robot.direction == direction
-    assert context.robot.attributes['speed'] == float(speed)
-    assert context.robot.attributes['curve_left'] == float(curve_left)
-    assert context.robot.attributes['curve_right'] == float(curve_right)
+    assert_equal(direction, context.robot.direction)
+    assert_equal(float(speed), context.robot.attributes['speed'])
+    assert_equal(float(curve_left), context.robot.attributes['curve_left'])
+    assert_equal(float(curve_right), context.robot.attributes['curve_right'])
 
 
-@then(u'robot moves "{direction}" with speed "{speed}"')
+@then(u'robot moves {direction} with speed {speed}')
 def step_impl(context, direction, speed):
-    assert context.robot.direction == direction
-    assert context.robot.attributes['speed'] == float(speed)
+    assert_equal(direction, context.robot.direction)
+    assert_equal(float(speed), context.robot.attributes['speed'])
