@@ -1,10 +1,21 @@
+import json
+
+import yaml
 from paho.mqtt import publish, subscribe
 
 
-class MqttOutputAdapter(object):
-    def __init__(self, config):
-        self.config = config
+class MqttConfig(object):
+    def __init__(self, path='resources/config.yml', file_format='yml'):
+        with open(path) as file:
+            if file_format.lower() == 'yml':
+                self.config = yaml.load(file)['mqtt']
+            if file_format.lower() == 'json':
+                self.config = json.load(file)['mqtt']
+            else:
+                raise NotImplementedError('Not supported configuration format')
 
+
+class MqttOutputAdapter(MqttConfig):
     def __call__(self, func):
         def wrapped(*args, **kwargs):
             kwargs = {
@@ -19,10 +30,7 @@ class MqttOutputAdapter(object):
         return wrapped
 
 
-class MqttInputAdapter(object):
-    def __init__(self, config):
-        self.config = config
-
+class MqttInputAdapter(MqttConfig):
     def __call__(self, func):
         kwargs = {
             'hostname': self.config.hostname,
