@@ -6,5 +6,5 @@ so that, ensure have pipenv installed in you system (using apt-get or pip).
 
 To install all dependencies just run:
 
+    pipenv --python 3.5
     pipenv install
-
