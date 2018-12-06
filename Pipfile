@@ -8,7 +8,6 @@ behave = "*"
 nose = "*"
 coverage = "*"
 flake8 = "*"
-v = {version = "*", editable = true}
 
 [packages]
 paho-mqtt = "*"
