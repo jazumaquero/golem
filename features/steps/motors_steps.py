@@ -1,7 +1,7 @@
 from behave import given, when, then
 from nose.tools import assert_equal
 
-from robot.motors import *
+from robot.actuators import *
 
 
 class MockedRobot(object):
